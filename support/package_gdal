@@ -35,7 +35,8 @@ cd $tempdir
 # build and package gdal for heroku
 vulcan build -v \
   -n gdal \
-  -c "cd gdal-${gdal_version} && ./configure --prefix=/app/vendor/gdal && make && make install" \
+  -c "cd gdal-${gdal_version} && mkdir -p /app/vendor/geos/ && cp -R ../../deps/* /app/vendor/geos/ && ls -lah /app/vendor/geos && ./configure --prefix=/app/vendor/gdal --with-geos=/app/vendor/geos/bin/geos-config && make && make install " \
+  -d http://bolster-heroku-geo.s3.amazonaws.com/geos-3.4.1.tgz \
   -p /app/vendor/gdal \
   -s http://download.osgeo.org/gdal/${gdal_version}/gdal-${gdal_version}.tar.gz \
   -o $tempdir/gdal-${gdal_version}.tgz
